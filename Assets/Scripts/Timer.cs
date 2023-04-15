@@ -8,6 +8,8 @@ public class Timer : MonoBehaviour
     [SerializeField] float timeRemaining;
     [SerializeField] TextMeshProUGUI timeText;
 
+    [SerializeField] AudioClip schoolBell;
+
     public bool gameOn = true;
     public bool isPaused = false;
 
@@ -30,6 +32,11 @@ public class Timer : MonoBehaviour
         if (timeText.text == "00:00"){
             gameOn = false;
             UiManager.Instance.Fail();
+        }
+
+        if(timeText.text == "01:00")
+        {
+            SoundManager.Instance.PlaySound(schoolBell);
         }
     }
 

@@ -6354,8 +6354,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 284186aecbf52174e9f41645e9b46e34, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeRemaining: 10
+  timeRemaining: 65
   timeText: {fileID: 2071902374}
+  schoolBell: {fileID: 8300000, guid: 376b1b9a15d39a848bfef69c5c594007, type: 3}
+  gameOn: 1
+  isPaused: 0
 --- !u!114 &2071902374
 MonoBehaviour:
   m_ObjectHideFlags: 0
