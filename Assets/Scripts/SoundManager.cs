@@ -6,12 +6,50 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioSource musicSource;
     [SerializeField] private AudioSource effectsSource;
 
+    private bool isStopped = false;
+
     public bool MusicMuted => musicSource.mute;
     public bool SFXMuted => effectsSource.mute;
 
+    private void Start()
+    {
+        Instance = this;
+        UiManager.onGameStop += Stopped;
+        UiManager.onResume += Resumed;
+    }
+
+    private void Update()
+    {
+        if (effectsSource.isPlaying && isStopped)
+        {
+            effectsSource.Pause();
+        }
+        if(!effectsSource.isPlaying && effectsSource.time != 0 && !isStopped) 
+        { 
+            effectsSource.UnPause();
+        }
+    }
+
+    private void Stopped()
+    {
+        if (!isStopped)
+        {
+            isStopped = true;
+        }
+    }
+
+    private void Resumed()
+    {
+        if (isStopped)
+        {
+            isStopped = false;
+        }
+    }
+
     public void PlaySound(AudioClip clip)
     {
-        effectsSource.PlayOneShot(clip);
+        effectsSource.clip = (clip);
+        effectsSource.Play();
     }
 
     public void PlayMusic(AudioClip clip)
@@ -48,18 +86,5 @@ public class SoundManager : MonoBehaviour
 
         if (PlayerPrefs.HasKey("sfxmute"))
             effectsSource.mute = PlayerPrefs.GetInt("sfxmute") == 1;
-    }
-
-    private void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
     }
 }

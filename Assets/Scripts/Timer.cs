@@ -9,6 +9,7 @@ public class Timer : MonoBehaviour
     [SerializeField] TextMeshProUGUI timeText;
 
     [SerializeField] AudioClip schoolBell;
+    [SerializeField] AudioClip footsteps;
 
     public bool gameOn = true;
     public bool isPaused = false;
@@ -34,7 +35,12 @@ public class Timer : MonoBehaviour
             UiManager.Instance.Fail();
         }
 
-        if(timeText.text == "01:00")
+        if(timeText.text == "00:16")
+        {
+            SoundManager.Instance.PlaySound(footsteps);
+        }
+
+        if (timeText.text == "01:00")
         {
             SoundManager.Instance.PlaySound(schoolBell);
         }
