@@ -3,9 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using System;
 
 public class ListController : MonoBehaviour
 {
+    public static event Action OnAllItemsCollected;
+
     [SerializeField]
     private List<Image> _scratchOut = new List<Image>();
     [SerializeField]
@@ -22,6 +25,8 @@ public class ListController : MonoBehaviour
     private AudioClip _scratchOff;
     [SerializeField]
     private AudioClip _openList;
+    [SerializeField]
+    private int _numItems = 0;
 
     private bool _firstEnable = true;
 
@@ -46,9 +51,10 @@ public class ListController : MonoBehaviour
     void checkItemFound(listItem foundItem)
     {
         SoundManager.Instance.PlaySound(_scratchOff);
-        Image newScratch = Instantiate(_scratchOut[Random.Range(0, _scratchOut.Count - 1)]);
+        Image newScratch = Instantiate(_scratchOut[UnityEngine.Random.Range(0, _scratchOut.Count - 1)]);
         newScratch.transform.SetParent(transform);
         newScratch.rectTransform.localScale = new Vector3(5.15f, 0.452f, 0.452f);
+        _numItems++;
         switch (foundItem)
         {
             case listItem.Blanket:
@@ -62,6 +68,10 @@ public class ListController : MonoBehaviour
             case listItem.Diary:
                 newScratch.rectTransform.localPosition = new Vector3(0, _diary.rectTransform.localPosition.y, _diary.rectTransform.localPosition.z);
                 break;
+        }
+        if(_numItems == 8)
+        {
+            OnAllItemsCollected?.Invoke();
         }
     }
 }
