@@ -64,7 +64,7 @@ namespace StarterAssets
 		private float _jumpTimeoutDelta;
 		private float _fallTimeoutDelta;
 
-		private bool isPaused = false;
+		private bool isStopped = false;
 
 	
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
@@ -111,24 +111,24 @@ namespace StarterAssets
 			_jumpTimeoutDelta = JumpTimeout;
 			_fallTimeoutDelta = FallTimeout;
 
-			PauseMenu.onPause += Paused;
-			PauseMenu.onResume += Resumed;
+			UiManager.onGameStop += Stopped;
+			UiManager.onResume += Resumed;
 		}
 
 
-		 private void Paused()
+		 private void Stopped()
 		{
-			if (!isPaused)
+			if (!isStopped)
 			{
-				isPaused = true;
+				isStopped = true;
 			}
 		}
 
         private void Resumed()
         {
-			if (isPaused)
+			if (isStopped)
 			{
-				isPaused = false;
+				isStopped = false;
 			}
         }
 
@@ -153,7 +153,7 @@ namespace StarterAssets
 
 		private void CameraRotation()
 		{
-			if(isPaused)
+			if(isStopped)
 			{
 				return;
 			}
@@ -179,7 +179,7 @@ namespace StarterAssets
 
 		private void Move()
 		{
-            if (isPaused)
+            if (isStopped)
             {
                 return;
             }
