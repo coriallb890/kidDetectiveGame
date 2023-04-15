@@ -30,10 +30,7 @@ public class ListController : MonoBehaviour
 
     private bool _firstEnable = true;
 
-    private void Awake()
-    {
-        Interactable.OnListItemPickUp += checkItemFound;
-    }
+    
 
     private void OnEnable()
     {
@@ -45,8 +42,9 @@ public class ListController : MonoBehaviour
         {
             SoundManager.Instance.PlaySound(_openList);
         }
-
+        Interactable.OnListItemPickUp += checkItemFound;
     }
+
 
     void checkItemFound(listItem foundItem)
     {
@@ -69,7 +67,7 @@ public class ListController : MonoBehaviour
                 newScratch.rectTransform.localPosition = new Vector3(0, _diary.rectTransform.localPosition.y, _diary.rectTransform.localPosition.z);
                 break;
         }
-        if(_numItems == 8)
+        if(_numItems == 1)
         {
             OnAllItemsCollected?.Invoke();
         }

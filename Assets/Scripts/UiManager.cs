@@ -11,11 +11,17 @@ public class UiManager : MonoBehaviour
 
     public static event Action onGameStop;
     public static event Action onResume;
+    public static event Action onWin;
+    public static event Action onLose;
+
     [SerializeField] InputActionAsset _playerInput;
 
+    [SerializeField] AudioClip door;
+    [SerializeField] AudioClip yippee;
 
     [SerializeField] GameObject pausePopup;
     [SerializeField] GameObject failPopup;
+    [SerializeField] GameObject winPopUp;
 
     private InputAction _pause;
     private void Start()
@@ -26,6 +32,9 @@ public class UiManager : MonoBehaviour
 
         pausePopup.gameObject.SetActive(false);
         failPopup.gameObject.SetActive(false);
+        winPopUp.gameObject.SetActive(false);
+
+        Door.WinGame += Win;
 
         Instance = this;
     }
@@ -55,8 +64,19 @@ public class UiManager : MonoBehaviour
 
     public void Fail()
     {
-        onGameStop?.Invoke();
+        SoundManager.Instance.PlaySound(door);
         pausePopup.gameObject.SetActive(false);
         failPopup.gameObject.SetActive(true);
+        onGameStop?.Invoke();
+        onLose?.Invoke();
+    }
+
+    public void Win()
+    {
+        print("not catching win");
+        SoundManager.Instance.PlaySound(yippee);
+        winPopUp.gameObject.SetActive(true);
+        onGameStop?.Invoke();
+        onWin?.Invoke();
     }
 }

@@ -8,6 +8,7 @@ public class CameraRaycast : MonoBehaviour
 {
     public static event Action OnInteractable;
     public static event Action OffInteractable;
+    public static event Action OnDoor;
 
     [SerializeField]
     private InputActionAsset _playerInput;
@@ -41,6 +42,12 @@ public class CameraRaycast : MonoBehaviour
                 OnInteractable?.Invoke();
                 _itemPickedUp = hit.collider.gameObject;
                 _grabItem.performed += handleItem;
+                _canGrab = true;
+            }
+
+            if (hit.collider.CompareTag("Door") && !_canGrab)
+            {
+                OnDoor?.Invoke();
                 _canGrab = true;
             }
         }

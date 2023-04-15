@@ -22,27 +22,32 @@ public class Timer : MonoBehaviour
     }
     void Update()
     {
-        if(gameOn && !isPaused)
+        if(gameOn)
         {
-            timeRemaining -= Time.deltaTime;
-            float minutes = Mathf.FloorToInt(timeRemaining / 60);
-            float seconds = Mathf.FloorToInt(timeRemaining % 60);
-            timeText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
-        }
-        
-        if (timeText.text == "00:00"){
-            gameOn = false;
-            UiManager.Instance.Fail();
-        }
+            if (!isPaused)
+            {
+                timeRemaining -= Time.deltaTime;
+                float minutes = Mathf.FloorToInt(timeRemaining / 60);
+                float seconds = Mathf.FloorToInt(timeRemaining % 60);
+                timeText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
+            }
 
-        if(timeText.text == "00:16")
-        {
-            SoundManager.Instance.PlaySound(footsteps);
-        }
+            if (timeText.text == "00:00")
+            {
+                gameOn = false;
+                UiManager.Instance.Fail();
+                timeText.text = "";
+            }
 
-        if (timeText.text == "01:00")
-        {
-            SoundManager.Instance.PlaySound(schoolBell);
+            if (timeText.text == "00:16")
+            {
+                SoundManager.Instance.PlaySound(footsteps);
+            }
+
+            if (timeText.text == "01:00")
+            {
+                SoundManager.Instance.PlaySound(schoolBell);
+            }
         }
     }
 

@@ -7,6 +7,7 @@ public class SoundManager : MonoBehaviour
     [SerializeField] private AudioSource effectsSource;
 
     private bool isStopped = false;
+    private bool endGame = false;
 
     public bool MusicMuted => musicSource.mute;
     public bool SFXMuted => effectsSource.mute;
@@ -16,17 +17,27 @@ public class SoundManager : MonoBehaviour
         Instance = this;
         UiManager.onGameStop += Stopped;
         UiManager.onResume += Resumed;
+        UiManager.onWin += EndGame;
+        UiManager.onLose += EndGame;
     }
 
     private void Update()
     {
-        if (effectsSource.isPlaying && isStopped)
+        if (effectsSource.isPlaying && isStopped && !endGame)
         {
             effectsSource.Pause();
         }
-        if(!effectsSource.isPlaying && effectsSource.time != 0 && !isStopped) 
-        { 
+        if(!effectsSource.isPlaying && effectsSource.time != 0 && !isStopped && !endGame) 
+        {
             effectsSource.UnPause();
+        }
+    }
+
+    private void EndGame()
+    {
+        if (!endGame)
+        {
+            endGame = true;
         }
     }
 
