@@ -48,7 +48,7 @@ public class Interactable : MonoBehaviour
         if(_interactType == interactType.Cabinet)
         {
             _startingPosition = transform.position;
-            _positionToGo = transform.position + (transform.forward * 2f);
+            _positionToGo = transform.position + (transform.forward * 1.25f);
         }
         Interactable.OnKeyFound += keyFound;
     }
@@ -61,7 +61,6 @@ public class Interactable : MonoBehaviour
                 if (!_beingHeld)
                 {
                     transform.SetParent(_parentLocation);
-                    _myBody.useGravity = false;
                     _beingHeld = true;
                     break;
                 }
