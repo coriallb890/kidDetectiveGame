@@ -12,6 +12,10 @@ public class ListController : MonoBehaviour
     private TextMeshProUGUI _blanket;
     [SerializeField]
     private TextMeshProUGUI _TeddyBear;
+    [SerializeField]
+    private TextMeshProUGUI _sillyBandz;
+    [SerializeField]
+    private TextMeshProUGUI _diary;
 
 
     [SerializeField]
@@ -54,6 +58,9 @@ public class ListController : MonoBehaviour
                 break;
             case listItem.TeddyBear:
                 newScratch.rectTransform.localPosition = new Vector3(0, _TeddyBear.rectTransform.localPosition.y, _TeddyBear.rectTransform.localPosition.z);
+                break;
+            case listItem.Diary:
+                newScratch.rectTransform.localPosition = new Vector3(0, _diary.rectTransform.localPosition.y, _diary.rectTransform.localPosition.z);
                 break;
         }
     }

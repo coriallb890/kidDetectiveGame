@@ -7,7 +7,8 @@ public enum interactType
 {
     pickUp,
     listItem,
-    Cabinet
+    Cabinet,
+    Key
 }
 public enum listItem
 {
@@ -19,6 +20,8 @@ public enum listItem
 public class Interactable : MonoBehaviour
 {
     public static event Action<listItem> OnListItemPickUp;
+    public static event Action OnKeyFound;
+    public static event Action OnOpenDiary;
 
     [SerializeField]
     private interactType _interactType;
@@ -26,11 +29,15 @@ public class Interactable : MonoBehaviour
     private float _openTime;
     [SerializeField]
     private listItem _listItem;
+    [SerializeField]
+    private AudioClip _unlockDiary;
 
     private bool _isOpen = false;
     private bool _openCabinet = false;
     private bool _closeCabinet = false;
     private bool _beingHeld = false;
+    private bool _hasKey = false;
+    private bool _diaryHasOpened = false;
     private Rigidbody _myBody;
     private Vector3 _positionToGo;
     private Vector3 _startingPosition;
@@ -43,6 +50,7 @@ public class Interactable : MonoBehaviour
             _startingPosition = transform.position;
             _positionToGo = transform.position + (transform.forward * 2f);
         }
+        Interactable.OnKeyFound += keyFound;
     }
 
     public void Interact(Transform _parentLocation)
@@ -65,9 +73,30 @@ public class Interactable : MonoBehaviour
                     break;
                 }
             case interactType.listItem:
-                OnListItemPickUp?.Invoke(_listItem);
-                Destroy(gameObject);
-                break;
+                if(_listItem == listItem.Diary)
+                {
+                    if (_hasKey && !_diaryHasOpened)
+                    {
+                        SoundManager.Instance.PlaySound(_unlockDiary);
+                        _diaryHasOpened = true;
+                        OnOpenDiary?.Invoke();
+                        OnListItemPickUp?.Invoke(_listItem);
+                        break;
+                    }else if (_diaryHasOpened)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+                else
+                {
+                    OnListItemPickUp?.Invoke(_listItem);
+                    Destroy(gameObject);
+                    break;
+                }
             case interactType.Cabinet:
                 if (!_isOpen)
                 {
@@ -79,6 +108,10 @@ public class Interactable : MonoBehaviour
                     _closeCabinet = true;
                     break;
                 }
+            case interactType.Key:
+                OnKeyFound?.Invoke();
+                Destroy(gameObject);
+                break;
             default:
                 break;
         }       
@@ -111,5 +144,10 @@ public class Interactable : MonoBehaviour
                 }
             }
         }
+    }
+
+    void keyFound()
+    {
+        _hasKey = true;
     }
 }
