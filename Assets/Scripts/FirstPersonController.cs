@@ -64,6 +64,8 @@ namespace StarterAssets
 		private float _jumpTimeoutDelta;
 		private float _fallTimeoutDelta;
 
+		private bool isPaused = false;
+
 	
 #if ENABLE_INPUT_SYSTEM && STARTER_ASSETS_PACKAGES_CHECKED
 		private PlayerInput _playerInput;
@@ -108,9 +110,29 @@ namespace StarterAssets
 			// reset our timeouts on start
 			_jumpTimeoutDelta = JumpTimeout;
 			_fallTimeoutDelta = FallTimeout;
+
+			PauseMenu.onPause += Paused;
+			PauseMenu.onResume += Resumed;
 		}
 
-		private void Update()
+
+		 private void Paused()
+		{
+			if (!isPaused)
+			{
+				isPaused = true;
+			}
+		}
+
+        private void Resumed()
+        {
+			if (isPaused)
+			{
+				isPaused = false;
+			}
+        }
+
+        private void Update()
 		{
 			JumpAndGravity();
 			GroundedCheck();
@@ -131,6 +153,10 @@ namespace StarterAssets
 
 		private void CameraRotation()
 		{
+			if(isPaused)
+			{
+				return;
+			}
 			// if there is an input
 			if (_input.look.sqrMagnitude >= _threshold)
 			{
@@ -153,8 +179,12 @@ namespace StarterAssets
 
 		private void Move()
 		{
-			// set target speed based on move speed, sprint speed and if sprint is pressed
-			float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
+            if (isPaused)
+            {
+                return;
+            }
+            // set target speed based on move speed, sprint speed and if sprint is pressed
+            float targetSpeed = _input.sprint ? SprintSpeed : MoveSpeed;
 
 			// a simplistic acceleration and deceleration designed to be easy to remove, replace, or iterate upon
 
