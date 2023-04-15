@@ -9,14 +9,23 @@ public enum interactType
     listItem,
     Cabinet
 }
+public enum listItem
+{
+    Blanket,
+    Diary,
+    SillyBand,
+    TeddyBear
+}
 public class Interactable : MonoBehaviour
 {
-    public static event Action<interactType> OnListItemPickUp;
+    public static event Action<listItem> OnListItemPickUp;
 
     [SerializeField]
     private interactType _interactType;
     [SerializeField]
     private float _openTime;
+    [SerializeField]
+    private listItem _listItem;
 
     private bool _isOpen = false;
     private bool _openCabinet = false;
@@ -56,7 +65,7 @@ public class Interactable : MonoBehaviour
                     break;
                 }
             case interactType.listItem:
-                OnListItemPickUp?.Invoke(_interactType);
+                OnListItemPickUp?.Invoke(_listItem);
                 Destroy(gameObject);
                 break;
             case interactType.Cabinet:
