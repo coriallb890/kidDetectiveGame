@@ -22,7 +22,7 @@ public class UiController : MonoBehaviour
 
     private InputAction _listOn;
 
-    private bool _listOpen = false;
+    private bool _listOpen = true;
     private bool _diaryOpen = false;
     private bool _canLeave = false;
     private void Awake()
@@ -43,7 +43,7 @@ public class UiController : MonoBehaviour
 
 
         Interactable.OnOpenDiary += openDiaryStart;
-        _list.SetActive(_listOpen);
+        _list.SetActive(true);
         _Diary.SetActive(_diaryOpen);
     }
 
