@@ -21,6 +21,10 @@ public class ListController : MonoBehaviour
     private TextMeshProUGUI _diary;
     [SerializeField]
     private TextMeshProUGUI _mushy;
+    [SerializeField]
+    private TextMeshProUGUI _frog;
+    [SerializeField]
+    private TextMeshProUGUI _fCard;
 
 
     [SerializeField]
@@ -78,6 +82,12 @@ public class ListController : MonoBehaviour
                 break;
             case listItem.Mushy:
                 newScratch.rectTransform.localPosition = new Vector3(0, _mushy.rectTransform.localPosition.y, _mushy.rectTransform.localPosition.z);
+                break;
+            case listItem.Froggy:
+                newScratch.rectTransform.localPosition = new Vector3(0, _frog.rectTransform.localPosition.y, _frog.rectTransform.localPosition.z);
+                break;
+            case listItem.FCard:
+                newScratch.rectTransform.localPosition = new Vector3(0, _fCard.rectTransform.localPosition.y, _fCard.rectTransform.localPosition.z);
                 break;
         }
         if(_numItems == 1)
