@@ -25,7 +25,6 @@ public class LockController : MonoBehaviour
 
     [SerializeField] InputActionAsset _playerInput;
     [SerializeField] GameObject lockPopup;
-    [SerializeField] GameObject lockModel;
 
     [SerializeField] GameObject reticle;
     [SerializeField] GameObject text;
@@ -128,9 +127,10 @@ public class LockController : MonoBehaviour
 
     public void checkCombo()
     {
+        print(_combination[0] + _combination[1] + _combination[2] + _combination[3]);
+        print(_playerCombination[0] + _playerCombination[1] + _playerCombination[2] + _playerCombination[3]);
         if (_combination[0] == _playerCombination[0] && _combination[1] == _playerCombination[1] && _combination[2] == _playerCombination[2] && _combination[3] == _playerCombination[3])
         {
-            lockModel.gameObject.tag = "Untagged";
             unlocked = true;
             lockPopup.SetActive(false);
             reticle.gameObject.SetActive(true);
