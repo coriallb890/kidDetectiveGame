@@ -24,6 +24,12 @@ public class UiManager : MonoBehaviour
     [SerializeField] GameObject winPopUp;
 
     private InputAction _pause;
+    private void OnEnable()
+    {
+        pausePopup.gameObject.SetActive(false);
+        failPopup.gameObject.SetActive(false);
+        winPopUp.gameObject.SetActive(false);
+    }
     private void Start()
     {
         _pause = _playerInput.FindActionMap("Player").FindAction("Pause");
@@ -37,6 +43,7 @@ public class UiManager : MonoBehaviour
         Door.WinGame += Win;
 
         Instance = this;
+        DontDestroyOnLoad(this);
     }
 
     public void Resume()
@@ -48,6 +55,9 @@ public class UiManager : MonoBehaviour
     public void MainMenu()
     {
         onResume?.Invoke();
+        pausePopup.gameObject.SetActive(false);
+        failPopup.gameObject.SetActive(false);
+        winPopUp.gameObject.SetActive(false);
         SceneManager.LoadScene("MainMenu");
     }
 

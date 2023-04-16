@@ -16,8 +16,6 @@ public class UiController : MonoBehaviour
     [SerializeField]
     private TextMeshProUGUI _reticle;
     [SerializeField]
-    private TextMeshProUGUI _pointer;
-    [SerializeField]
     private GameObject _list;
     [SerializeField]
     private GameObject _Diary;
@@ -27,15 +25,17 @@ public class UiController : MonoBehaviour
     private bool _listOpen = false;
     private bool _diaryOpen = false;
     private bool _canLeave = false;
-
-    private void Start()
+    private void Awake()
     {
         _listOn = _playerInput.FindActionMap("Player").FindAction("OpenList");
         _listOn.Enable();
         _listOn.performed += toggleList;
+    }
+    private void Start()
+    {
         clearInteract();
 
-
+        DontDestroyOnLoad(this);
         CameraRaycast.OnInteractable += updateInteract;
         CameraRaycast.OffInteractable += clearInteract;
         CameraRaycast.OnDoor += updateInteractDoor;
@@ -44,6 +44,7 @@ public class UiController : MonoBehaviour
 
 
         Interactable.OnOpenDiary += openDiaryStart;
+        Debug.Log("_list inactive");
         _list.SetActive(_listOpen);
         _Diary.SetActive(_diaryOpen);
     }

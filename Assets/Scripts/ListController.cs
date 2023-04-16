@@ -30,7 +30,6 @@ public class ListController : MonoBehaviour
 
     private bool _firstEnable = true;
 
-    
 
     private void OnEnable()
     {
@@ -53,6 +52,7 @@ public class ListController : MonoBehaviour
         newScratch.transform.SetParent(transform);
         newScratch.rectTransform.localScale = new Vector3(5.15f, 0.452f, 0.452f);
         _numItems++;
+        Debug.Log("this");
         switch (foundItem)
         {
             case listItem.Blanket:
