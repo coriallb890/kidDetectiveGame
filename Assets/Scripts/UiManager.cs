@@ -44,6 +44,10 @@ public class UiManager : MonoBehaviour
         winPopUp.gameObject.SetActive(false);
 
         Door.WinGame += Win;
+        LockController.OnLockPressed += stopPause;
+        LockController.OnLockPressedAgain += enablePause;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
 
         Instance = this;
     }
@@ -51,6 +55,8 @@ public class UiManager : MonoBehaviour
     {
         Door.WinGame -= Win;
         _pause.performed -= Pause;
+        LockController.OnLockPressed -= stopPause;
+        LockController.OnLockPressedAgain -= enablePause;
     }
 
     public void Resume()
@@ -59,6 +65,8 @@ public class UiManager : MonoBehaviour
         text.gameObject.SetActive(true);
         onResume?.Invoke();
         pausePopup.gameObject.SetActive(false);
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     public void MainMenu()
@@ -81,6 +89,8 @@ public class UiManager : MonoBehaviour
         text.gameObject.SetActive(false);
         onGameStop?.Invoke();
         pausePopup.gameObject.SetActive(true);
+        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = true;
     }
 
     public void Fail()
@@ -93,6 +103,8 @@ public class UiManager : MonoBehaviour
         failPopup.gameObject.SetActive(true);
         onGameStop?.Invoke();
         onLose?.Invoke();
+        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = true;
     }
 
     public void Win()
@@ -104,5 +116,17 @@ public class UiManager : MonoBehaviour
         winPopUp.gameObject.SetActive(true);
         onGameStop?.Invoke();
         onWin?.Invoke();
+        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = true;
+    }
+
+    public void stopPause()
+    {
+        _pause.Disable();
+    }
+
+    void enablePause()
+    {
+        _pause.Enable();
     }
 }

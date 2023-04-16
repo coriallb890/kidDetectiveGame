@@ -67,6 +67,8 @@ public class LockController : MonoBehaviour
         }
         if(onLock && !lockPopupOpen)
         {
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.Confined;
             reticle.gameObject.SetActive(false);
             text.gameObject.SetActive(false);
             lockPopupOpen = true;
@@ -75,6 +77,8 @@ public class LockController : MonoBehaviour
         }
         else if (lockPopupOpen)
         {
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
             reticle.gameObject.SetActive(true);
             text.gameObject.SetActive(true);
             lockPopupOpen = false;
@@ -127,8 +131,6 @@ public class LockController : MonoBehaviour
 
     public void checkCombo()
     {
-        print(_combination[0] + _combination[1] + _combination[2] + _combination[3]);
-        print(_playerCombination[0] + _playerCombination[1] + _playerCombination[2] + _playerCombination[3]);
         if (_combination[0] == _playerCombination[0] && _combination[1] == _playerCombination[1] && _combination[2] == _playerCombination[2] && _combination[3] == _playerCombination[3])
         {
             unlocked = true;
@@ -137,6 +139,8 @@ public class LockController : MonoBehaviour
             text.gameObject.SetActive(true);
             OnLockPressedAgain?.Invoke();
             OnLockOpened?.Invoke();
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
         }
     }
 }
