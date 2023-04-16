@@ -9557,6 +9557,41 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1225688463}
   m_CullTransparentMesh: 1
+--- !u!1 &1228199790 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: b83a9dc86d5e62e4abbfea02739c7a67,
+    type: 3}
+  m_PrefabInstance: {fileID: 1698044981}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1228199791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1228199790}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8407863df649d4c488256094ed359c30, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _interactType: 0
+  _openTime: 0
+  _listItem: 0
+  _unlockDiary: {fileID: 0}
+--- !u!65 &1228199792
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1228199790}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.03136655, y: 0.041995127, z: 0.03418878}
+  m_Center: {x: 0.0023935528, y: 0.0194688, z: -0.0013450335}
 --- !u!1001 &1228907388
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12933,6 +12968,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: KidsChair (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: b83a9dc86d5e62e4abbfea02739c7a67,
+        type: 3}
+      propertyPath: m_TagString
+      value: Interactable
       objectReference: {fileID: 0}
     - target: {fileID: 3566390031902043909, guid: b83a9dc86d5e62e4abbfea02739c7a67,
         type: 3}

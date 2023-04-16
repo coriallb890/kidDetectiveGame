@@ -60,6 +60,7 @@ public class LockController : MonoBehaviour
     {
         CameraRaycast.OnLock -= islooking;
         CameraRaycast.OffInteractable -= notlooking;
+        _lock.performed -= openLock;
     }
 
     void openLock(InputAction.CallbackContext context)
