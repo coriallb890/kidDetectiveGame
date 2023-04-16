@@ -4,10 +4,14 @@ using UnityEngine;
 using UnityEngine.UI;
 using System;
 using TMPro;
+using System.ComponentModel;
+using UnityEngine.InputSystem;
 
 public class LockController : MonoBehaviour
 {
     public static event Action OnLockOpened;
+    public static event Action OnLockPressed;
+    public static event Action OnLockPressedAgain;
 
     [SerializeField]
     private List<int> _combination = new List<int>();
@@ -19,86 +23,121 @@ public class LockController : MonoBehaviour
     [SerializeField]
     private List<TextMeshProUGUI> _indexes = new List<TextMeshProUGUI>();
 
-    [SerializeField]
-    private Button _up;
-    [SerializeField]
-    private Button _down;
-    [SerializeField]
-    private Button _right;
-    [SerializeField]
-    private Button _left;
-    [SerializeField]
-    private Button _checkCombo;
+    [SerializeField] InputActionAsset _playerInput;
+    [SerializeField] GameObject lockPopup;
+    [SerializeField] GameObject lockModel;
+
+    [SerializeField] GameObject reticle;
+    [SerializeField] GameObject text;
+
+    private InputAction _lock;
+
+    private bool onLock = false;
+    private bool lockPopupOpen = false;
+    private bool unlocked = false;
 
     private void Start()
     {
+        _lock = _playerInput.FindActionMap("Player").FindAction("Lock");
+        _lock.Enable();
+        _lock.performed += openLock;
+
+        CameraRaycast.OnLock += islooking;
+        CameraRaycast.OffInteractable += notlooking;
+
+        lockPopup.SetActive(false);
+
         foreach (TextMeshProUGUI text in _indexes)
         {
             text.text = _playerCombination[0].ToString();
         }
+
+        print(_combination);
+        print(_playerCombination);
     }
 
-    public void increaseIndex()
+    private void OnDestroy()
     {
-        if(_playerComboIndex == 0)
+        CameraRaycast.OnLock -= islooking;
+        CameraRaycast.OffInteractable -= notlooking;
+    }
+
+    void openLock(InputAction.CallbackContext context)
+    {
+        if(unlocked)
         {
-            _playerComboIndex = _playerCombination.Count - 1;
+            return;
+        }
+        if(onLock && !lockPopupOpen)
+        {
+            reticle.gameObject.SetActive(false);
+            text.gameObject.SetActive(false);
+            lockPopupOpen = true;
+            lockPopup.SetActive(true);
+            OnLockPressed?.Invoke();
+        }
+        else if (lockPopupOpen)
+        {
+            reticle.gameObject.SetActive(true);
+            text.gameObject.SetActive(true);
+            lockPopupOpen = false;
+            lockPopup.SetActive(false);
+            OnLockPressedAgain?.Invoke();
         }
     }
 
-    public void decreaseIndex()
+    void islooking()
     {
-        if(_playerComboIndex == _playerCombination.Count - 1)
+        if(!onLock)
         {
-            _playerComboIndex = 0;
+            onLock = true;
         }
+        print("looking at lock: " + onLock);
     }
 
-    public void addValue()
+    void notlooking()
     {
-        if(_playerCombination[_playerComboIndex] == 9)
+        if (onLock)
         {
-            _playerCombination[_playerComboIndex] = 0;
+            onLock = false;
+        }
+        print("looking at lock: " + onLock);
+    }
+
+    public void addValue(int index)
+    {
+        if(_playerCombination[index] == 9)
+        {
+            _playerCombination[index] = 0;
         }
         else
         {
-            _playerCombination[_playerComboIndex]++;
+            _playerCombination[index]++;
         }
-        _indexes[_playerComboIndex].text = _playerCombination[_playerComboIndex].ToString();
+        _indexes[index].text = _playerCombination[index].ToString();
     }
 
-    public void subtrackValue()
+    public void subtrackValue(int index)
     {
-        if (_playerCombination[_playerComboIndex] == 0)
+        if (_playerCombination[index] == 0)
         {
-            _playerCombination[_playerComboIndex] = 9;
+            _playerCombination[index] = 9;
         }
         else
         {
-            _playerCombination[_playerComboIndex]--;
+            _playerCombination[index]--;
         }
-        _indexes[_playerComboIndex].text = _playerCombination[_playerComboIndex].ToString();
+        _indexes[index].text = _playerCombination[index].ToString();
     }
-    
+
     public void checkCombo()
     {
-        bool isEqual = true;
-        for (int i = 0; i <= 3; i++)
+        if (_combination[0] == _playerCombination[0] && _combination[1] == _playerCombination[1] && _combination[2] == _playerCombination[2] && _combination[3] == _playerCombination[3])
         {
-            if(_playerCombination[i] != _combination[i])
-            {
-                isEqual = false;
-                break;
-            }
-        }
-        if (!isEqual)
-        {
-            
-        }
-        else if (isEqual)
-        {
-            Debug.Log("Combo correct");
-            OnLockOpened?.Invoke();
+            lockModel.gameObject.tag = "Untagged";
+            unlocked = true;
+            lockPopup.SetActive(false);
+            OnLockPressedAgain?.Invoke();
         }
     }
 }

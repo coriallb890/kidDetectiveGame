@@ -7,7 +7,8 @@ using System;
 
 public class Door : MonoBehaviour
 {
-    private bool canLeave = false;
+    private bool looking = false;
+    private bool jobsDone = false;
 
     public static event Action WinGame;
 
@@ -16,24 +17,51 @@ public class Door : MonoBehaviour
     private InputAction _leave;
     void Start()
     {
-        ListController.OnAllItemsCollected += updateLeave;
+        ListController.OnAllItemsCollected += updateJobs;
+        CameraRaycast.OnDoor += isLook;
+        CameraRaycast.OffInteractable += notLook;
 
         _leave = _playerInput.FindActionMap("Player").FindAction("Leave");
         _leave.Enable();
         _leave.performed += Leave;
     }
 
-    void updateLeave()
+    private void OnDestroy()
     {
-        if (!canLeave)
+        ListController.OnAllItemsCollected -= updateJobs;
+        CameraRaycast.OnDoor -= isLook;
+        CameraRaycast.OffInteractable -= notLook;
+    }
+
+    void updateJobs()
+    {
+        if (!jobsDone)
         {
-            canLeave = true;
+            jobsDone = true;
         }
+    }
+
+    void isLook()
+    {
+        if(!looking)
+        {
+            looking = true;
+        }
+        print("looking at door: " + looking);
+    }
+
+    void notLook()
+    {
+        if (looking)
+        {
+            looking = false;
+        }
+        print("looking at door: " + looking);
     }
 
     void Leave(InputAction.CallbackContext context)
     {
-        if(canLeave)
+        if(looking && jobsDone)
         {
             WinGame?.Invoke();
         }

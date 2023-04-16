@@ -53,6 +53,11 @@ public class Interactable : MonoBehaviour
         Interactable.OnKeyFound += keyFound;
     }
 
+    private void OnDestroy()
+    {
+        Interactable.OnKeyFound -= keyFound;
+    }
+
     public void Interact(Transform _parentLocation)
     {
         switch (_interactType)
@@ -93,6 +98,7 @@ public class Interactable : MonoBehaviour
                 else
                 {
                     OnListItemPickUp?.Invoke(_listItem);
+                    print("OnListItemPickUp has been invoked");
                     Destroy(gameObject);
                     break;
                 }

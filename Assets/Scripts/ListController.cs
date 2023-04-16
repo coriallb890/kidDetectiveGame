@@ -31,7 +31,7 @@ public class ListController : MonoBehaviour
     private bool _firstEnable = true;
 
 
-    private void OnEnable()
+    private void Start()
     {
         if (_firstEnable)
         {
@@ -42,6 +42,11 @@ public class ListController : MonoBehaviour
             SoundManager.Instance.PlaySound(_openList);
         }
         Interactable.OnListItemPickUp += checkItemFound;
+    }
+
+    private void OnDestroy()
+    {
+        Interactable.OnListItemPickUp -= checkItemFound;
     }
 
 

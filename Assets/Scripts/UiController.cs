@@ -34,11 +34,10 @@ public class UiController : MonoBehaviour
     private void Start()
     {
         clearInteract();
-
-        DontDestroyOnLoad(this);
         CameraRaycast.OnInteractable += updateInteract;
         CameraRaycast.OffInteractable += clearInteract;
         CameraRaycast.OnDoor += updateInteractDoor;
+        CameraRaycast.OnLock += updateInteractLock;
         ListController.OnAllItemsCollected += updateLeave;
 
 
@@ -51,8 +50,12 @@ public class UiController : MonoBehaviour
 
     private void OnDestroy()
     {
-        print("working");
-        _listOn.performed -= toggleList;
+        CameraRaycast.OnInteractable -= updateInteract;
+        CameraRaycast.OffInteractable -= clearInteract;
+        CameraRaycast.OnDoor -= updateInteractDoor;
+        CameraRaycast.OnLock -= updateInteractLock;
+        ListController.OnAllItemsCollected -= updateLeave;
+        Interactable.OnOpenDiary -= openDiaryStart;
     }
 
     void updateInteract()
@@ -70,19 +73,26 @@ public class UiController : MonoBehaviour
     void updateLeave()
     {
         _canLeave = true;
+        print("Text change: "+_canLeave);
     }
 
     void updateInteractDoor()
     {
         if (_canLeave)
         {
-            _interact.text = "Press L to Leave";
+            _interact.text = "Press R to Leave";
             _reticle.color = Color.white;
         }
         else
         {
             _interact.text = "Can't Leave Yet";
         }
+    }
+
+    private void updateInteractLock()
+    {
+        _interact.text = "Press F";
+        _reticle.color = Color.white;
     }
 
     void toggleList(InputAction.CallbackContext value)

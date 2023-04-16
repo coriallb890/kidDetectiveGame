@@ -21,6 +21,14 @@ public class SoundManager : MonoBehaviour
         UiManager.onLose += EndGame;
     }
 
+
+    private void OnDestroy()
+    {
+        UiManager.onGameStop -= Stopped;
+        UiManager.onResume -= Resumed;
+        UiManager.onWin -= EndGame;
+        UiManager.onLose -= EndGame;
+    }
     private void Update()
     {
         if (effectsSource.isPlaying && isStopped && !endGame)

@@ -23,6 +23,9 @@ public class UiManager : MonoBehaviour
     [SerializeField] GameObject failPopup;
     [SerializeField] GameObject winPopUp;
 
+    [SerializeField] GameObject reticle;
+    [SerializeField] GameObject text;
+
     private InputAction _pause;
     private void OnEnable()
     {
@@ -48,6 +51,8 @@ public class UiManager : MonoBehaviour
 
     public void Resume()
     {
+        reticle.gameObject.SetActive(true);
+        text.gameObject.SetActive(true);
         onResume?.Invoke();
         pausePopup.gameObject.SetActive(false);
     }
@@ -68,12 +73,17 @@ public class UiManager : MonoBehaviour
 
     public void Pause(InputAction.CallbackContext context)
     {
+        reticle.gameObject.SetActive(false);
+        text.gameObject.SetActive(false);
         onGameStop?.Invoke();
         pausePopup.gameObject.SetActive(true);
     }
 
     public void Fail()
     {
+        reticle.gameObject.SetActive(false);
+        text.gameObject.SetActive(false);
+        _pause.Disable();
         SoundManager.Instance.PlaySound(door);
         pausePopup.gameObject.SetActive(false);
         failPopup.gameObject.SetActive(true);
@@ -83,7 +93,9 @@ public class UiManager : MonoBehaviour
 
     public void Win()
     {
-        print("not catching win");
+        reticle.gameObject.SetActive(false);
+        text.gameObject.SetActive(false);
+        _pause.Disable();
         SoundManager.Instance.PlaySound(yippee);
         winPopUp.gameObject.SetActive(true);
         onGameStop?.Invoke();

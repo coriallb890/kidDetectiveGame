@@ -113,10 +113,20 @@ namespace StarterAssets
 
 			UiManager.onGameStop += Stopped;
 			UiManager.onResume += Resumed;
+			LockController.OnLockPressed += Stopped;
+			LockController.OnLockPressedAgain += Resumed;
 		}
 
 
-		 private void Stopped()
+        private void OnDestroy()
+        {
+            UiManager.onGameStop -= Stopped;
+            UiManager.onResume -= Resumed;
+            LockController.OnLockPressed -= Stopped;
+            LockController.OnLockPressedAgain -= Resumed;
+        }
+
+        private void Stopped()
 		{
 			if (!isStopped)
 			{

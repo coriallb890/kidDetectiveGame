@@ -20,6 +20,12 @@ public class Timer : MonoBehaviour
         UiManager.onGameStop += Paused;
         UiManager.onResume += Resumed;
     }
+
+    private void OnDestroy()
+    {
+        UiManager.onGameStop -= Paused;
+        UiManager.onResume -= Resumed;
+    }
     void Update()
     {
         if(gameOn)
