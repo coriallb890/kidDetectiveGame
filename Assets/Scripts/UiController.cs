@@ -43,7 +43,6 @@ public class UiController : MonoBehaviour
 
 
         Interactable.OnOpenDiary += openDiaryStart;
-        Debug.Log("_list inactive");
         _list.SetActive(_listOpen);
         _Diary.SetActive(_diaryOpen);
     }
@@ -56,6 +55,7 @@ public class UiController : MonoBehaviour
         CameraRaycast.OnLock -= updateInteractLock;
         ListController.OnAllItemsCollected -= updateLeave;
         Interactable.OnOpenDiary -= openDiaryStart;
+        _listOn.performed -= toggleList;
     }
 
     void updateInteract()

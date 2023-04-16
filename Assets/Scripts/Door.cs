@@ -31,6 +31,7 @@ public class Door : MonoBehaviour
         ListController.OnAllItemsCollected -= updateJobs;
         CameraRaycast.OnDoor -= isLook;
         CameraRaycast.OffInteractable -= notLook;
+        _leave.performed -= Leave;
     }
 
     void updateJobs()

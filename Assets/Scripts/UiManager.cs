@@ -46,7 +46,11 @@ public class UiManager : MonoBehaviour
         Door.WinGame += Win;
 
         Instance = this;
-        DontDestroyOnLoad(this);
+    }
+    private void OnDestroy()
+    {
+        Door.WinGame -= Win;
+        _pause.performed -= Pause;
     }
 
     public void Resume()
