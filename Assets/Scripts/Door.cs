@@ -48,7 +48,6 @@ public class Door : MonoBehaviour
         {
             looking = true;
         }
-        print("looking at door: " + looking);
     }
 
     void notLook()
@@ -57,7 +56,6 @@ public class Door : MonoBehaviour
         {
             looking = false;
         }
-        print("looking at door: " + looking);
     }
 
     void Leave(InputAction.CallbackContext context)

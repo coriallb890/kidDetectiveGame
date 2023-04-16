@@ -19,6 +19,8 @@ public class ListController : MonoBehaviour
     private TextMeshProUGUI _sillyBandz;
     [SerializeField]
     private TextMeshProUGUI _diary;
+    [SerializeField]
+    private TextMeshProUGUI _mushy;
 
 
     [SerializeField]
@@ -33,15 +35,18 @@ public class ListController : MonoBehaviour
 
     private void Start()
     {
+        Interactable.OnListItemPickUp += checkItemFound;
+    }
+    private void OnEnable()
+    {
         if (_firstEnable)
         {
             _firstEnable = false;
         }
-        else if(!_firstEnable)
+        else if (!_firstEnable)
         {
             SoundManager.Instance.PlaySound(_openList);
         }
-        Interactable.OnListItemPickUp += checkItemFound;
     }
 
     private void OnDestroy()
@@ -57,19 +62,22 @@ public class ListController : MonoBehaviour
         newScratch.transform.SetParent(transform);
         newScratch.rectTransform.localScale = new Vector3(5.15f, 0.452f, 0.452f);
         _numItems++;
-        Debug.Log("this");
         switch (foundItem)
         {
             case listItem.Blanket:
                 newScratch.rectTransform.localPosition = new Vector3(0, _blanket.rectTransform.localPosition.y, _blanket.rectTransform.localPosition.z);
                 break;
             case listItem.SillyBand:
+                newScratch.rectTransform.localPosition = new Vector3(0, _sillyBandz.rectTransform.localPosition.y, _sillyBandz.rectTransform.localPosition.z);
                 break;
             case listItem.TeddyBear:
                 newScratch.rectTransform.localPosition = new Vector3(0, _TeddyBear.rectTransform.localPosition.y, _TeddyBear.rectTransform.localPosition.z);
                 break;
             case listItem.Diary:
                 newScratch.rectTransform.localPosition = new Vector3(0, _diary.rectTransform.localPosition.y, _diary.rectTransform.localPosition.z);
+                break;
+            case listItem.Mushy:
+                newScratch.rectTransform.localPosition = new Vector3(0, _mushy.rectTransform.localPosition.y, _mushy.rectTransform.localPosition.z);
                 break;
         }
         if(_numItems == 1)

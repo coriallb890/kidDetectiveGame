@@ -15,7 +15,8 @@ public enum listItem
     Blanket,
     Diary,
     SillyBand,
-    TeddyBear
+    TeddyBear,
+    Mushy
 }
 public class Interactable : MonoBehaviour
 {

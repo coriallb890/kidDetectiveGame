@@ -73,7 +73,6 @@ public class UiController : MonoBehaviour
     void updateLeave()
     {
         _canLeave = true;
-        print("Text change: "+_canLeave);
     }
 
     void updateInteractDoor()
@@ -99,7 +98,6 @@ public class UiController : MonoBehaviour
     {
         _listOpen = _listOpen ? false : true;
         OnListPress?.Invoke(_listOpen);
-        print("list");
         _list.SetActive(_listOpen);
     }
 

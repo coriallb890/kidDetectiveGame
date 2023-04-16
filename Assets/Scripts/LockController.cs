@@ -51,9 +51,6 @@ public class LockController : MonoBehaviour
         {
             text.text = _playerCombination[0].ToString();
         }
-
-        print(_combination);
-        print(_playerCombination);
     }
 
     private void OnDestroy()
@@ -93,7 +90,6 @@ public class LockController : MonoBehaviour
         {
             onLock = true;
         }
-        print("looking at lock: " + onLock);
     }
 
     void notlooking()
@@ -102,7 +98,6 @@ public class LockController : MonoBehaviour
         {
             onLock = false;
         }
-        print("looking at lock: " + onLock);
     }
 
     public void addValue(int index)
