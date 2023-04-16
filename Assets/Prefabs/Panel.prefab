@@ -376,6 +376,7 @@ MonoBehaviour:
   _TeddyBear: {fileID: 1450741427030496087}
   _sillyBandz: {fileID: 0}
   _diary: {fileID: 1450741428005041828}
+  _mushy: {fileID: 0}
   _scratchOff: {fileID: 8300000, guid: 3f164ff6982fab4469a36fc96c1c9f2f, type: 3}
   _openList: {fileID: 8300000, guid: 804d04b6414d8064d8d59848d0231d72, type: 3}
   _numItems: 0
@@ -445,7 +446,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Find out who Suzy has a crush on!
+  m_text: Jon wants to know who Suzy likes!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7c4d1b2a08fef734a9a7dba593480c6a, type: 2}
   m_sharedMaterial: {fileID: -8989596021976098244, guid: 7c4d1b2a08fef734a9a7dba593480c6a,
