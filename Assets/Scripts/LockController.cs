@@ -133,7 +133,10 @@ public class LockController : MonoBehaviour
             lockModel.gameObject.tag = "Untagged";
             unlocked = true;
             lockPopup.SetActive(false);
+            reticle.gameObject.SetActive(true);
+            text.gameObject.SetActive(true);
             OnLockPressedAgain?.Invoke();
+            OnLockOpened?.Invoke();
         }
     }
 }

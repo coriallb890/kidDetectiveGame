@@ -994,7 +994,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Mark really needs his sillybandz
+  m_text: Mark really needs his bracelet!
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 7c4d1b2a08fef734a9a7dba593480c6a, type: 2}
   m_sharedMaterial: {fileID: -8989596021976098244, guid: 7c4d1b2a08fef734a9a7dba593480c6a,

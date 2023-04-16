@@ -8,7 +8,8 @@ public enum interactType
     pickUp,
     listItem,
     Cabinet,
-    Key
+    Key,
+    lockedCab
 }
 public enum listItem
 {
@@ -39,6 +40,7 @@ public class Interactable : MonoBehaviour
     private bool _openCabinet = false;
     private bool _closeCabinet = false;
     private bool _beingHeld = false;
+    private bool _locked = true;
     private bool _hasKey = false;
     private bool _diaryHasOpened = false;
     private Rigidbody _myBody;
@@ -48,17 +50,19 @@ public class Interactable : MonoBehaviour
     private void Start()
     {
         _myBody = GetComponent<Rigidbody>();
-        if(_interactType == interactType.Cabinet)
+        if(_interactType == interactType.Cabinet || _interactType == interactType.lockedCab)
         {
             _startingPosition = transform.position;
             _positionToGo = transform.position + (transform.forward * 1.25f);
         }
         Interactable.OnKeyFound += keyFound;
+        LockController.OnLockOpened += openLock;
     }
 
     private void OnDestroy()
     {
         Interactable.OnKeyFound -= keyFound;
+        LockController.OnLockOpened -= openLock;
     }
 
     public void Interact(Transform _parentLocation)
@@ -101,7 +105,6 @@ public class Interactable : MonoBehaviour
                 else
                 {
                     OnListItemPickUp?.Invoke(_listItem);
-                    print("OnListItemPickUp has been invoked");
                     Destroy(gameObject);
                     break;
                 }
@@ -120,6 +123,12 @@ public class Interactable : MonoBehaviour
                 OnKeyFound?.Invoke();
                 Destroy(gameObject);
                 break;
+            case interactType.lockedCab:
+                if (!_locked)
+                {
+                    _openCabinet = true;
+                }
+                break;
             default:
                 break;
         }       
@@ -127,7 +136,7 @@ public class Interactable : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(_interactType != interactType.Cabinet)
+        if(_interactType != interactType.Cabinet && _interactType != interactType.lockedCab)
         {
             return;
         }
@@ -157,5 +166,10 @@ public class Interactable : MonoBehaviour
     void keyFound()
     {
         _hasKey = true;
+    }
+
+    void openLock()
+    {
+        _locked = false;
     }
 }

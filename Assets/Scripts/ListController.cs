@@ -90,7 +90,7 @@ public class ListController : MonoBehaviour
                 newScratch.rectTransform.localPosition = new Vector3(0, _fCard.rectTransform.localPosition.y, _fCard.rectTransform.localPosition.z);
                 break;
         }
-        if(_numItems == 1)
+        if(_numItems == 7)
         {
             OnAllItemsCollected?.Invoke();
         }
